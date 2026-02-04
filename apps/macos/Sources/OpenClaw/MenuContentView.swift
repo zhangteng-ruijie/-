@@ -46,16 +46,16 @@ struct MenuContent: View {
                     self.statusLine(label: self.healthStatus.label, color: self.healthStatus.color)
                     if self.pairingPrompter.pendingCount > 0 {
                         let repairCount = self.pairingPrompter.pendingRepairCount
-                        let repairSuffix = repairCount > 0 ? " · \(repairCount) repair" : ""
+                        let repairSuffix = repairCount > 0 ? " · \(repairCount) " + String(localized: "pairing.repair") : ""
                         self.statusLine(
-                            label: "Pairing approval pending (\(self.pairingPrompter.pendingCount))\(repairSuffix)",
+                            label: String(localized: "pairing.pending", defaultValue: "Pairing approval pending (\(self.pairingPrompter.pendingCount))", comment: "Pairing pending status") + repairSuffix,
                             color: .orange)
                     }
                     if self.devicePairingPrompter.pendingCount > 0 {
                         let repairCount = self.devicePairingPrompter.pendingRepairCount
-                        let repairSuffix = repairCount > 0 ? " · \(repairCount) repair" : ""
+                        let repairSuffix = repairCount > 0 ? " · \(repairCount) " + String(localized: "pairing.repair") : ""
                         self.statusLine(
-                            label: "Device pairing pending (\(self.devicePairingPrompter.pendingCount))\(repairSuffix)",
+                            label: String(localized: "pairing.devicePending", defaultValue: "Device pairing pending (\(self.devicePairingPrompter.pendingCount))", comment: "Device pairing pending status") + repairSuffix,
                             color: .orange)
                     }
                 }
@@ -65,7 +65,7 @@ struct MenuContent: View {
             Divider()
             Toggle(isOn: self.heartbeatsBinding) {
                 HStack(spacing: 8) {
-                    Label("Send Heartbeats", systemImage: "waveform.path.ecg")
+                    Label(String(localized: "menu.sendHeartbeats"), systemImage: "waveform.path.ecg")
                     Spacer(minLength: 0)
                     self.statusLine(label: self.heartbeatStatus.label, color: self.heartbeatStatus.color)
                 }
@@ -77,20 +77,20 @@ struct MenuContent: View {
                         self.browserControlEnabled = enabled
                         Task { await self.saveBrowserControlEnabled(enabled) }
                     })) {
-                Label("Browser Control", systemImage: "globe")
+                Label(String(localized: "menu.browserControl"), systemImage: "globe")
             }
             Toggle(isOn: self.$cameraEnabled) {
-                Label("Allow Camera", systemImage: "camera")
+                Label(String(localized: "menu.allowCamera"), systemImage: "camera")
             }
             Picker(selection: self.execApprovalModeBinding) {
                 ForEach(ExecApprovalQuickMode.allCases) { mode in
                     Text(mode.title).tag(mode)
                 }
             } label: {
-                Label("Exec Approvals", systemImage: "terminal")
+                Label(String(localized: "menu.execApprovals"), systemImage: "terminal")
             }
             Toggle(isOn: Binding(get: { self.state.canvasEnabled }, set: { self.state.canvasEnabled = $0 })) {
-                Label("Allow Canvas", systemImage: "rectangle.and.pencil.and.ellipsis")
+                Label(String(localized: "menu.allowCanvas"), systemImage: "rectangle.and.pencil.and.ellipsis")
             }
             .onChange(of: self.state.canvasEnabled) { _, enabled in
                 if !enabled {
@@ -98,7 +98,7 @@ struct MenuContent: View {
                 }
             }
             Toggle(isOn: self.voiceWakeBinding) {
-                Label("Voice Wake", systemImage: "mic.fill")
+                Label(String(localized: "menu.voiceWake"), systemImage: "mic.fill")
             }
             .disabled(!voiceWakeSupported)
             .opacity(voiceWakeSupported ? 1 : 0.5)
@@ -111,7 +111,7 @@ struct MenuContent: View {
                     await self.openDashboard()
                 }
             } label: {
-                Label("Open Dashboard", systemImage: "gauge")
+                Label(String(localized: "menu.openDashboard"), systemImage: "gauge")
             }
             Button {
                 Task { @MainActor in
@@ -119,7 +119,7 @@ struct MenuContent: View {
                     WebChatManager.shared.show(sessionKey: sessionKey)
                 }
             } label: {
-                Label("Open Chat", systemImage: "bubble.left.and.bubble.right")
+                Label(String(localized: "menu.openChat"), systemImage: "bubble.left.and.bubble.right")
             }
             if self.state.canvasEnabled {
                 Button {
@@ -134,26 +134,32 @@ struct MenuContent: View {
                     }
                 } label: {
                     Label(
-                        self.state.canvasPanelVisible ? "Close Canvas" : "Open Canvas",
+                        self.state.canvasPanelVisible 
+                            ? String(localized: "menu.closeCanvas") 
+                            : String(localized: "menu.openCanvas"),
                         systemImage: "rectangle.inset.filled.on.rectangle")
                 }
             }
             Button {
                 Task { await self.state.setTalkEnabled(!self.state.talkEnabled) }
             } label: {
-                Label(self.state.talkEnabled ? "Stop Talk Mode" : "Talk Mode", systemImage: "waveform.circle.fill")
+                Label(
+                    self.state.talkEnabled 
+                        ? String(localized: "menu.stopTalkMode") 
+                        : String(localized: "menu.talkMode"), 
+                    systemImage: "waveform.circle.fill")
             }
             .disabled(!voiceWakeSupported)
             .opacity(voiceWakeSupported ? 1 : 0.5)
             Divider()
-            Button("Settings…") { self.open(tab: .general) }
+            Button(String(localized: "menu.settings")) { self.open(tab: .general) }
                 .keyboardShortcut(",", modifiers: [.command])
             self.debugMenu
-            Button("About OpenClaw") { self.open(tab: .about) }
+            Button(String(localized: "menu.about")) { self.open(tab: .about) }
             if let updater, updater.isAvailable, self.updateStatus.isUpdateReady {
-                Button("Update ready, restart now?") { updater.checkForUpdates(nil) }
+                Button(String(localized: "menu.updateReady")) { updater.checkForUpdates(nil) }
             }
-            Button("Quit") { NSApplication.shared.terminate(nil) }
+            Button(String(localized: "menu.quit")) { NSApplication.shared.terminate(nil) }
         }
         .task(id: self.state.swabbleEnabled) {
             if self.state.swabbleEnabled {
@@ -185,11 +191,11 @@ struct MenuContent: View {
     private var connectionLabel: String {
         switch self.state.connectionMode {
         case .unconfigured:
-            "OpenClaw Not Configured"
+            String(localized: "connection.unconfigured")
         case .remote:
-            "Remote OpenClaw Active"
+            String(localized: "connection.remote")
         case .local:
-            "OpenClaw Active"
+            String(localized: "connection.local")
         }
     }
 
@@ -225,30 +231,30 @@ struct MenuContent: View {
     @ViewBuilder
     private var debugMenu: some View {
         if self.state.debugPaneEnabled {
-            Menu("Debug") {
+            Menu(String(localized: "menu.debug")) {
                 Button {
                     DebugActions.openConfigFolder()
                 } label: {
-                    Label("Open Config Folder", systemImage: "folder")
+                    Label(String(localized: "debug.openConfigFolder"), systemImage: "folder")
                 }
                 Button {
                     Task { await DebugActions.runHealthCheckNow() }
                 } label: {
-                    Label("Run Health Check Now", systemImage: "stethoscope")
+                    Label(String(localized: "debug.runHealthCheck"), systemImage: "stethoscope")
                 }
                 Button {
                     Task { _ = await DebugActions.sendTestHeartbeat() }
                 } label: {
-                    Label("Send Test Heartbeat", systemImage: "waveform.path.ecg")
+                    Label(String(localized: "debug.sendTestHeartbeat"), systemImage: "waveform.path.ecg")
                 }
                 if self.state.connectionMode == .remote {
                     Button {
                         Task { @MainActor in
                             let result = await DebugActions.resetGatewayTunnel()
-                            self.presentDebugResult(result, title: "Remote Tunnel")
+                            self.presentDebugResult(result, title: String(localized: "alert.remoteTunnel"))
                         }
                     } label: {
-                        Label("Reset Remote Tunnel", systemImage: "arrow.triangle.2.circlepath")
+                        Label(String(localized: "debug.resetRemoteTunnel"), systemImage: "arrow.triangle.2.circlepath")
                     }
                 }
                 Button {
@@ -256,8 +262,8 @@ struct MenuContent: View {
                 } label: {
                     Label(
                         DebugActions.verboseLoggingEnabledMain
-                            ? "Verbose Logging (Main): On"
-                            : "Verbose Logging (Main): Off",
+                            ? String(localized: "debug.verboseLoggingOn")
+                            : String(localized: "debug.verboseLoggingOff"),
                         systemImage: "text.alignleft")
                 }
                 Menu {
@@ -269,56 +275,56 @@ struct MenuContent: View {
                     Toggle(isOn: self.$appFileLoggingEnabled) {
                         Label(
                             self.appFileLoggingEnabled
-                                ? "File Logging: On"
-                                : "File Logging: Off",
+                                ? String(localized: "debug.fileLoggingOn")
+                                : String(localized: "debug.fileLoggingOff"),
                             systemImage: "doc.text.magnifyingglass")
                     }
                 } label: {
-                    Label("App Logging", systemImage: "doc.text")
+                    Label(String(localized: "debug.appLogging"), systemImage: "doc.text")
                 }
                 Button {
                     DebugActions.openSessionStore()
                 } label: {
-                    Label("Open Session Store", systemImage: "externaldrive")
+                    Label(String(localized: "debug.openSessionStore"), systemImage: "externaldrive")
                 }
                 Divider()
                 Button {
                     DebugActions.openAgentEventsWindow()
                 } label: {
-                    Label("Open Agent Events…", systemImage: "bolt.horizontal.circle")
+                    Label(String(localized: "debug.openAgentEvents"), systemImage: "bolt.horizontal.circle")
                 }
                 Button {
                     DebugActions.openLog()
                 } label: {
-                    Label("Open Log", systemImage: "doc.text.magnifyingglass")
+                    Label(String(localized: "debug.openLog"), systemImage: "doc.text.magnifyingglass")
                 }
                 Button {
                     Task { _ = await DebugActions.sendDebugVoice() }
                 } label: {
-                    Label("Send Debug Voice Text", systemImage: "waveform.circle")
+                    Label(String(localized: "debug.sendDebugVoice"), systemImage: "waveform.circle")
                 }
                 Button {
                     Task { await DebugActions.sendTestNotification() }
                 } label: {
-                    Label("Send Test Notification", systemImage: "bell")
+                    Label(String(localized: "debug.sendTestNotification"), systemImage: "bell")
                 }
                 Divider()
                 if self.state.connectionMode == .local {
                     Button {
                         DebugActions.restartGateway()
                     } label: {
-                        Label("Restart Gateway", systemImage: "arrow.clockwise")
+                        Label(String(localized: "debug.restartGateway"), systemImage: "arrow.clockwise")
                     }
                 }
                 Button {
                     DebugActions.restartOnboarding()
                 } label: {
-                    Label("Restart Onboarding", systemImage: "arrow.counterclockwise")
+                    Label(String(localized: "debug.restartOnboarding"), systemImage: "arrow.counterclockwise")
                 }
                 Button {
                     DebugActions.restartApp()
                 } label: {
-                    Label("Restart App", systemImage: "arrow.triangle.2.circlepath")
+                    Label(String(localized: "debug.restartApp"), systemImage: "arrow.triangle.2.circlepath")
                 }
             }
         }
@@ -341,7 +347,7 @@ struct MenuContent: View {
             NSWorkspace.shared.open(url)
         } catch {
             let alert = NSAlert()
-            alert.messageText = "Dashboard unavailable"
+            alert.messageText = String(localized: "alert.dashboardUnavailable")
             alert.informativeText = error.localizedDescription
             alert.runModal()
         }
@@ -350,7 +356,9 @@ struct MenuContent: View {
     private var healthStatus: (label: String, color: Color) {
         if let activity = self.activityStore.current {
             let color: Color = activity.role == .main ? .accentColor : .gray
-            let roleLabel = activity.role == .main ? "Main" : "Other"
+            let roleLabel = activity.role == .main 
+                ? String(localized: "activity.main") 
+                : String(localized: "activity.other")
             let text = "\(roleLabel) · \(activity.label)"
             return (text, color)
         }
@@ -360,43 +368,43 @@ struct MenuContent: View {
         let lastAge = self.healthStore.lastSuccess.map { age(from: $0) }
 
         if isRefreshing {
-            return ("Health check running…", health.tint)
+            return (String(localized: "health.running"), health.tint)
         }
 
         switch health {
         case .ok:
-            let ageText = lastAge.map { " · checked \($0)" } ?? ""
-            return ("Health ok\(ageText)", .green)
+            let ageText = lastAge.map { " · " + String(localized: "health.checked", defaultValue: "checked \($0)", comment: "Health check timestamp") } ?? ""
+            return (String(localized: "health.ok") + ageText, .green)
         case .linkingNeeded:
-            return ("Health: login required", .red)
+            return (String(localized: "health.loginRequired"), .red)
         case let .degraded(reason):
             let detail = HealthStore.shared.degradedSummary ?? reason
-            let ageText = lastAge.map { " · checked \($0)" } ?? ""
+            let ageText = lastAge.map { " · " + String(localized: "health.checked", defaultValue: "checked \($0)", comment: "Health check timestamp") } ?? ""
             return ("\(detail)\(ageText)", .orange)
         case .unknown:
-            return ("Health pending", .secondary)
+            return (String(localized: "health.pending"), .secondary)
         }
     }
 
     private var heartbeatStatus: (label: String, color: Color) {
         if case .degraded = self.controlChannel.state {
-            return ("Control channel disconnected", .red)
+            return (String(localized: "heartbeat.controlDisconnected"), .red)
         } else if let evt = self.heartbeatStore.lastEvent {
             let ageText = age(from: Date(timeIntervalSince1970: evt.ts / 1000))
             switch evt.status {
             case "sent":
-                return ("Last heartbeat sent · \(ageText)", .blue)
+                return (String(localized: "heartbeat.sent", defaultValue: "Last heartbeat sent · \(ageText)", comment: "Heartbeat sent status"), .blue)
             case "ok-empty", "ok-token":
-                return ("Heartbeat ok · \(ageText)", .green)
+                return (String(localized: "heartbeat.ok", defaultValue: "Heartbeat ok · \(ageText)", comment: "Heartbeat ok status"), .green)
             case "skipped":
-                return ("Heartbeat skipped · \(ageText)", .secondary)
+                return (String(localized: "heartbeat.skipped", defaultValue: "Heartbeat skipped · \(ageText)", comment: "Heartbeat skipped status"), .secondary)
             case "failed":
-                return ("Heartbeat failed · \(ageText)", .red)
+                return (String(localized: "heartbeat.failed", defaultValue: "Heartbeat failed · \(ageText)", comment: "Heartbeat failed status"), .red)
             default:
-                return ("Heartbeat · \(ageText)", .secondary)
+                return (String(localized: "heartbeat.generic", defaultValue: "Heartbeat · \(ageText)", comment: "Heartbeat generic status"), .secondary)
             }
         } else {
-            return ("No heartbeat yet", .secondary)
+            return (String(localized: "heartbeat.none"), .secondary)
         }
     }
 
@@ -443,14 +451,14 @@ struct MenuContent: View {
 
             if self.loadingMics {
                 Divider()
-                Label("Refreshing microphones…", systemImage: "arrow.triangle.2.circlepath")
+                Label(String(localized: "mic.refreshing"), systemImage: "arrow.triangle.2.circlepath")
                     .labelStyle(.titleOnly)
                     .foregroundStyle(.secondary)
                     .disabled(true)
             }
         } label: {
             HStack {
-                Text("Microphone")
+                Text(String(localized: "mic.label"))
                 Spacer()
                 Text(self.selectedMicLabel)
                     .foregroundStyle(.secondary)
@@ -471,7 +479,7 @@ struct MenuContent: View {
     private var microphoneMenuItems: some View {
         Group {
             if self.isSelectedMicUnavailable {
-                Label("Disconnected (using System default)", systemImage: "exclamationmark.triangle")
+                Label(String(localized: "mic.disconnected"), systemImage: "exclamationmark.triangle")
                     .labelStyle(.titleAndIcon)
                     .foregroundStyle(.secondary)
                     .disabled(true)
@@ -507,9 +515,9 @@ struct MenuContent: View {
 
     private var defaultMicLabel: String {
         if let host = Host.current().localizedName, !host.isEmpty {
-            return "Auto-detect (\(host))"
+            return String(localized: "mic.autoDetect", defaultValue: "Auto-detect (\(host))", comment: "Auto-detect microphone label")
         }
-        return "System default"
+        return String(localized: "mic.systemDefault")
     }
 
     @MainActor

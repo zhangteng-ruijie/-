@@ -61,6 +61,8 @@ let package = Package(
             resources: [
                 .copy("Resources/OpenClaw.icns"),
                 .copy("Resources/DeviceModels"),
+                .process("Resources/en.lproj"),
+                .process("Resources/zh-Hans.lproj"),
             ],
             swiftSettings: [
                 .enableUpcomingFeature("StrictConcurrency"),

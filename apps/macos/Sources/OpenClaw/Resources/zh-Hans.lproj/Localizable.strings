@@ -1,0 +1,80 @@
+/* Menu bar items and labels - Chinese Simplified */
+
+/* Connection status labels */
+"connection.unconfigured" = "OpenClaw 未配置";
+"connection.remote" = "远程 OpenClaw 已激活";
+"connection.local" = "OpenClaw 已激活";
+
+/* Menu items */
+"menu.sendHeartbeats" = "发送心跳";
+"menu.browserControl" = "浏览器控制";
+"menu.allowCamera" = "允许相机";
+"menu.execApprovals" = "执行审批";
+"menu.allowCanvas" = "允许画布";
+"menu.voiceWake" = "语音唤醒";
+"menu.openDashboard" = "打开仪表板";
+"menu.openChat" = "打开聊天";
+"menu.openCanvas" = "打开画布";
+"menu.closeCanvas" = "关闭画布";
+"menu.talkMode" = "对话模式";
+"menu.stopTalkMode" = "停止对话模式";
+"menu.settings" = "设置…";
+"menu.debug" = "调试";
+"menu.about" = "关于 OpenClaw";
+"menu.updateReady" = "更新已就绪，现在重启？";
+"menu.quit" = "退出";
+
+/* Debug menu items */
+"debug.openConfigFolder" = "打开配置文件夹";
+"debug.runHealthCheck" = "立即运行健康检查";
+"debug.sendTestHeartbeat" = "发送测试心跳";
+"debug.resetRemoteTunnel" = "重置远程隧道";
+"debug.verboseLoggingOn" = "详细日志（主）：开启";
+"debug.verboseLoggingOff" = "详细日志（主）：关闭";
+"debug.appLogging" = "应用日志";
+"debug.fileLoggingOn" = "文件日志：开启";
+"debug.fileLoggingOff" = "文件日志：关闭";
+"debug.openSessionStore" = "打开会话存储";
+"debug.openAgentEvents" = "打开代理事件…";
+"debug.openLog" = "打开日志";
+"debug.sendDebugVoice" = "发送调试语音文本";
+"debug.sendTestNotification" = "发送测试通知";
+"debug.restartGateway" = "重启网关";
+"debug.restartOnboarding" = "重启引导";
+"debug.restartApp" = "重启应用";
+
+/* Health status */
+"health.ok" = "健康状态正常";
+"health.loginRequired" = "健康状态：需要登录";
+"health.pending" = "健康状态待确认";
+"health.running" = "健康检查运行中…";
+"health.checked" = "已检查 %@";
+
+/* Heartbeat status */
+"heartbeat.controlDisconnected" = "控制通道已断开";
+"heartbeat.sent" = "上次心跳已发送 · %@";
+"heartbeat.ok" = "心跳正常 · %@";
+"heartbeat.skipped" = "心跳已跳过 · %@";
+"heartbeat.failed" = "心跳失败 · %@";
+"heartbeat.generic" = "心跳 · %@";
+"heartbeat.none" = "尚未发送心跳";
+
+/* Activity labels */
+"activity.main" = "主会话";
+"activity.other" = "其他会话";
+
+/* Microphone settings */
+"mic.autoDetect" = "自动检测（%@）";
+"mic.systemDefault" = "系统默认";
+"mic.disconnected" = "已断开（使用系统默认）";
+"mic.refreshing" = "刷新麦克风列表…";
+"mic.label" = "麦克风";
+
+/* Pairing */
+"pairing.pending" = "配对审批待处理（%d）";
+"pairing.repair" = "修复";
+"pairing.devicePending" = "设备配对待处理（%d）";
+
+/* Alerts */
+"alert.dashboardUnavailable" = "仪表板不可用";
+"alert.remoteTunnel" = "远程隧道";
