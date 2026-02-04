@@ -1,0 +1,80 @@
+/* Menu bar items and labels */
+
+/* Connection status labels */
+"connection.unconfigured" = "OpenClaw Not Configured";
+"connection.remote" = "Remote OpenClaw Active";
+"connection.local" = "OpenClaw Active";
+
+/* Menu items */
+"menu.sendHeartbeats" = "Send Heartbeats";
+"menu.browserControl" = "Browser Control";
+"menu.allowCamera" = "Allow Camera";
+"menu.execApprovals" = "Exec Approvals";
+"menu.allowCanvas" = "Allow Canvas";
+"menu.voiceWake" = "Voice Wake";
+"menu.openDashboard" = "Open Dashboard";
+"menu.openChat" = "Open Chat";
+"menu.openCanvas" = "Open Canvas";
+"menu.closeCanvas" = "Close Canvas";
+"menu.talkMode" = "Talk Mode";
+"menu.stopTalkMode" = "Stop Talk Mode";
+"menu.settings" = "Settings…";
+"menu.debug" = "Debug";
+"menu.about" = "About OpenClaw";
+"menu.updateReady" = "Update ready, restart now?";
+"menu.quit" = "Quit";
+
+/* Debug menu items */
+"debug.openConfigFolder" = "Open Config Folder";
+"debug.runHealthCheck" = "Run Health Check Now";
+"debug.sendTestHeartbeat" = "Send Test Heartbeat";
+"debug.resetRemoteTunnel" = "Reset Remote Tunnel";
+"debug.verboseLoggingOn" = "Verbose Logging (Main): On";
+"debug.verboseLoggingOff" = "Verbose Logging (Main): Off";
+"debug.appLogging" = "App Logging";
+"debug.fileLoggingOn" = "File Logging: On";
+"debug.fileLoggingOff" = "File Logging: Off";
+"debug.openSessionStore" = "Open Session Store";
+"debug.openAgentEvents" = "Open Agent Events…";
+"debug.openLog" = "Open Log";
+"debug.sendDebugVoice" = "Send Debug Voice Text";
+"debug.sendTestNotification" = "Send Test Notification";
+"debug.restartGateway" = "Restart Gateway";
+"debug.restartOnboarding" = "Restart Onboarding";
+"debug.restartApp" = "Restart App";
+
+/* Health status */
+"health.ok" = "Health ok";
+"health.loginRequired" = "Health: login required";
+"health.pending" = "Health pending";
+"health.running" = "Health check running…";
+"health.checked" = "checked %@";
+
+/* Heartbeat status */
+"heartbeat.controlDisconnected" = "Control channel disconnected";
+"heartbeat.sent" = "Last heartbeat sent · %@";
+"heartbeat.ok" = "Heartbeat ok · %@";
+"heartbeat.skipped" = "Heartbeat skipped · %@";
+"heartbeat.failed" = "Heartbeat failed · %@";
+"heartbeat.generic" = "Heartbeat · %@";
+"heartbeat.none" = "No heartbeat yet";
+
+/* Activity labels */
+"activity.main" = "Main";
+"activity.other" = "Other";
+
+/* Microphone settings */
+"mic.autoDetect" = "Auto-detect (%@)";
+"mic.systemDefault" = "System default";
+"mic.disconnected" = "Disconnected (using System default)";
+"mic.refreshing" = "Refreshing microphones…";
+"mic.label" = "Microphone";
+
+/* Pairing */
+"pairing.pending" = "Pairing approval pending (%d)";
+"pairing.repair" = "repair";
+"pairing.devicePending" = "Device pairing pending (%d)";
+
+/* Alerts */
+"alert.dashboardUnavailable" = "Dashboard unavailable";
+"alert.remoteTunnel" = "Remote Tunnel";
